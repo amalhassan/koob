@@ -4,4 +4,4 @@ const fontBase = {
         heading: `"Courier Prime", "monospace"`
     }
 }
-export default colors;
+export default fontBase;
