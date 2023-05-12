@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { baseURL } from './constant';
 import Nav from './components/Nav/Nav';
-import Main from './components/Main/Main';
+import Container from './components/Container/Container';
 function App() {
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
@@ -34,7 +34,7 @@ function App() {
       <BrowserRouter>
         <Nav username={username}/>
         <Routes>
-          <Route exact path="/" element={<Main/>}/>
+          <Route exact path="/" element={<Container/>}/>
         </Routes>
       </BrowserRouter>
     </>
