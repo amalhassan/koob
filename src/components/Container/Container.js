@@ -4,7 +4,7 @@ import Main from '../Main/Main';
 import SideBar from '../SideBar/SideBar';
 const Container = () => {
   return (
-    <Flex direction={{base: 'column', sm: 'row'}}>
+    <Flex direction={{base: 'column-reverse', sm: 'row'}}>
       <SideBar/>
       <Main/>
     </Flex>
