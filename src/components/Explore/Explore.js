@@ -1,8 +1,10 @@
-import React from 'react'
-
+import React, {useState} from 'react';
+import { Box } from '@chakra-ui/react';
+import SearchBar from '../SearchBar/SearchBar';
 const Explore = () => {
+  const [search, setSearch] = useState('');
   return (
-    <div>Explore</div>
+    <SearchBar search={search} setSearch={setSearch}/>
   )
 }
 
