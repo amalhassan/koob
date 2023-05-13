@@ -1,13 +1,14 @@
-import React, {useState} from 'react'
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Flex, List, ListItem, ListIcon, Divider, Text, Link } from '@chakra-ui/react'
+import React, {useState, useEffect} from 'react'
+import {useNavigate } from 'react-router-dom';
+import { Flex, List, ListItem, ListIcon, Divider, Text } from '@chakra-ui/react'
 import {MdOutlineExplore, MdOutlineAccountCircle} from 'react-icons/md';
 import ExplorePage from '../../pages/ExplorePage/ExplorePage';
 import ProfilePage from '../../pages/ProfilePage/ProfilePage';
-const Main = () => {
+const Main = ({data}) => {
     const [page, setPage] = useState("explore");
     const [current, setCurrent] = useState(true);
     const navigate = useNavigate();
+    console.log(data)
     const handleClick = (e) => {
         navigate(`/${e}`, {replace: true});
         setCurrent(!current);

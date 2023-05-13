@@ -5,8 +5,8 @@ import axios from 'axios';
 import { baseURL } from './constant';
 import Nav from './components/Nav/Nav';
 import Container from './components/Container/Container';
-import ExplorePage from './pages/ExplorePage/ExplorePage';
-import ProfilePage from './pages/ProfilePage/ProfilePage';
+// import ExplorePage from './pages/ExplorePage/ExplorePage';
+// import ProfilePage from './pages/ProfilePage/ProfilePage';
 function App() {
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
