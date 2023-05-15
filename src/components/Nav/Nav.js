@@ -5,7 +5,7 @@ const Nav = ({username}) => {
   return (
     <Flex  h={'10vh'} borderBottomWidth={'2px'} borderBottomColor='koobBlack'>
         <Box p='4' ml='5' w='max-content'>
-            <Link to="/explore" >
+            <Link to="/">
                 <Heading as="h1" color="koobBlack">Koob</Heading>
             </Link>
         </Box>

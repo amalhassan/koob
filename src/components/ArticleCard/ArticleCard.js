@@ -15,21 +15,21 @@ const ArticleCard = ({id, title, image, url, date, publisher, description}) => {
     }
   return (
     <Card display={'flex'} flexDirection={{base:'column', sm: 'row'}} borderWidth={'1px'} borderColor={'koobBlack'} w={{base:'90%', sm:'100%'}} id={id} my={'20px'} _hover={{borderColor: 'koobAccentGold', borderWidth: '2px'}}>
-        <Image aspectRatio={1} objectFit='cover' w={{base: '100%', sm:'13vw'}} src={image} alt={'image for article'} borderRadius={2}/>
+        <Image aspectRatio={1} objectFit='cover' w={{base: '100%', sm:'25vw', md: '20vw'}} src={image} alt={'image for article'} borderRadius={2}/>
         <Stack>
             <CardBody fontSize={'2xm'}>
                 <HStack w='100%' justify={'space-between'}>
                     <Link href={url} target="_blank">
-                        <Heading as='h2' fontSize={'2xl'}>{title}</Heading>
+                        <Heading as='h2' fontSize={'2xl'}>{title}title</Heading>
                     </Link>
                     <Icon as={MdOutlineBookmark} onClick={() => handleReadLater()} boxSize={7} color = {!readLater ? "koobBlack" : "koobAccentGold"}/>
                 </HStack>
                 <HStack w='90%' justify={'start'} fontSize={'2xm'}>
-                    <Text>{formatDate}</Text>
-                    <Text as='h4'>{publisher ? publisher : null}</Text>
+                    <Text>{formatDate}date</Text>
+                    <Text as='h4'>{publisher ? publisher : null}publisher</Text>
                 </HStack>
                 <HStack>
-                    <Text mt={2}>{description}</Text>
+                    <Text mt={2}>{description}description</Text>
                 </HStack>
             </CardBody>
         </Stack>

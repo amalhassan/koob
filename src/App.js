@@ -5,8 +5,6 @@ import axios from 'axios';
 import { baseURL } from './constant';
 import Nav from './components/Nav/Nav';
 import Container from './components/Container/Container';
-// import ExplorePage from './pages/ExplorePage/ExplorePage';
-// import ProfilePage from './pages/ProfilePage/ProfilePage';
 function App() {
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
@@ -34,10 +32,12 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Nav username={username}/>
+        <Nav username={username} />
         <Routes>
           <Route exact path="/" element={<Container />}/>
-          <Route path="/explore" element={<Container />}/>
+          <Route exact path="/explore" element={<Container />}/>
+          <Route path="/explore/:param" element={<Container />}/>
+          <Route path="/explore/:param/:id" element={<Container />}/>
           <Route path="/profile" element={<Container />}/>
         </Routes>
       </BrowserRouter>
