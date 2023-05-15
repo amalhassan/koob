@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Card, Image, Stack, Box, CardBody, HStack, VStack, Heading, Flex, Icon, Text, Link, Button, useDisclosure, Slide} from '@chakra-ui/react';
+import { Card, Image, Stack, CardBody, HStack, VStack, Heading, Icon, Text, Link, Button } from '@chakra-ui/react';
 import {MdOutlineBookmark} from 'react-icons/md';
 import ArrowDown from '../../assets/icons/arrow_drop_down.svg';
 import ArrowUp from '../../assets/icons/arrow_drop_up.svg';
@@ -49,7 +49,7 @@ const ArticleCard = ({id, title, image, url, date, publisher, description}) => {
                             </Button>
                         </Stack>
                      </Stack>
-                     {hide ? null : <NoteForm formType={formType} note={note} setNote={setNote}/> }
+                     {hide ? null : <NoteForm formType={formType} note={note} setNote={setNote} setFormType={setFormType}/> }
                 </VStack>
             </CardBody>
         </Stack>

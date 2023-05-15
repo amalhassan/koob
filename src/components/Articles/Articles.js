@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate, Link} from 'react-router-dom';
-import { Box, Flex, useDisclosure, Slide, Button} from '@chakra-ui/react';
+import {useNavigate} from 'react-router-dom';
+import { Box, Flex} from '@chakra-ui/react';
 import SearchBar from '../SearchBar/SearchBar';
 import ArticleCard from '../ArticleCard/ArticleCard';
 import axios from 'axios';
 const Articles = ({type, setType, query, setQuery}) => {
     const navigate = useNavigate();
     const [articleList, setArticleList] = useState([]);
-    // const { isOpen, onToggle, onClose} = useDisclosure();
     useEffect(() => {
         console.log("q from params", query, type);
     }, [ query, type])
