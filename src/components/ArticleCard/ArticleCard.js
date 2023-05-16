@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { Card, Image, Stack, CardBody, HStack, VStack, Heading, Icon, Text, Link, Button } from '@chakra-ui/react';
-import {MdOutlineBookmark} from 'react-icons/md';
-import BookmarkOutline from '../../assets/icons/bookmark_outline.svg';
+import {MdOutlineBookmarkBorder, MdBookmark} from 'react-icons/md';
 import BookmarkSolid from '../../assets/icons/bookmark_solid.svg';
+import BookmarkOutline from '../../assets/icons/bookmark_outline.svg';
 import ArrowDown from '../../assets/icons/arrow_drop_down.svg';
 import ArrowUp from '../../assets/icons/arrow_drop_up.svg';
 import PlaceholderImg from '../../assets/images/27163.jpg'
@@ -20,8 +20,10 @@ const ArticleCard = ({title, image, url, date, publisher, description, existingN
     const [readLater, setReadLater] = useState(false);
     const [formType, setFormType] = useState("Add");
     const [hide, setHide] = useState(true);
+    const [bookmarksExist, setBookmarksExist] = useState(false);
     const handleReadLater = () => {
         setReadLater(!readLater);
+        setBookmarksExist(true);
     }
     const [note, setNote] = useState("");
     const handleToggle = () => {
@@ -33,9 +35,41 @@ const ArticleCard = ({title, image, url, date, publisher, description, existingN
     publisher = "Abc";
     description = "djfdf";
     let article_url="www.yahoo.com"
-    ///wrap conditional expression around axios calls to get all articles and notes OR make those call in separate comonponets housed 
-    // within Profile
-    /// in here will be the POST for articles, in notes component will be the axios calls GET, POST, PUT AND DELETE for notes
+    useEffect(() => {
+        if (readLater) {
+            (async function () {
+                try {
+                const res = await axios.post(`${baseURL}user/645d0a9b892e3f58c6b04385/articles`, {
+                    article_title: title,
+                    article_url: article_url,
+                    publisher: publisher,
+                    img_url: image,
+                    date: date,
+                    summary: description
+                  })
+                console.log("posted bookmark", res.data);
+                // setBookMarkId(res.data_id)
+                } catch (error) {
+                  console.log(error)
+                }
+              } ())
+        } else if (bookmarksExist) {
+                (async function () {
+                    try {
+                    const res = await axios.get(`${baseURL}/user/645d0a9b892e3f58c6b04385/articles`)
+                    const articlesBookmarked = res.data;
+                    // console.log(articleBookmarked);
+                    const findArticle = articlesBookmarked.find(((r) => title == r.article_title));
+                    const bookmarkToRemoveId = findArticle._id;
+                    // console.log(bookmarkToRemoveId);
+                    const res2 = await axios.delete(`${baseURL}user/645d0a9b892e3f58c6b04385/articles/${bookmarkToRemoveId}`)
+                    console.log("deleted bookmark", res2.data);
+                    } catch (error) {
+                      console.log(error)
+                    }
+                  } ())
+            }
+    }, [readLater])
   return (
     <Card display={'flex'} flexDirection={{base:'column', md: 'row'}} borderWidth={'1px'} borderColor={'koobBlack'} w={{base:'90%', sm:'100%'}} my={'20px'} _hover={{borderColor: 'koobAccentGold', borderWidth: '2px'}}>
         <Image aspectRatio={1} objectFit='cover' w={{base: '100%', sm:'25vw', md: '20vw'}} src={PlaceholderImg} alt={'image for article'} borderRadius={2}/>
@@ -45,7 +79,8 @@ const ArticleCard = ({title, image, url, date, publisher, description, existingN
                     <Link href={url} target="_blank">
                         <Heading as='h2' fontSize={'2xl'}>{title}</Heading>
                     </Link>
-                    <Icon as={MdOutlineBookmark} onClick={() => handleReadLater()} boxSize={7} color = {!readLater ? "none" : "koobAccentGold"}/>
+                    {!readLater ?  <Image as={MdOutlineBookmarkBorder} onClick={() => handleReadLater()} boxSize={8} /> :
+                     <Image as={MdBookmark} onClick={() => handleReadLater()} boxSize={8} color={'koobAccentGold'}/>} 
                 </HStack>
                 <HStack w='90%' justify={'start'} fontSize={'2xm'}>
                     <Text>{formatDate}date</Text>
