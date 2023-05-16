@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import { Card, Image, Stack, CardBody, HStack, VStack, Heading, Icon, Text, Link, Button } from '@chakra-ui/react';
 import {MdOutlineBookmark} from 'react-icons/md';
+import BookmarkOutline from '../../assets/icons/bookmark_outline.svg';
+import BookmarkSolid from '../../assets/icons/bookmark_solid.svg';
 import ArrowDown from '../../assets/icons/arrow_drop_down.svg';
 import ArrowUp from '../../assets/icons/arrow_drop_up.svg';
 import PlaceholderImg from '../../assets/images/27163.jpg'
 import axios from 'axios';
 import {baseURL} from "../../constant.js"
 import NoteForm from '../NoteForm/NoteForm';
-const ArticleCard = ({title, image, url, date, publisher, description}) => {
+const ArticleCard = ({title, image, url, date, publisher, description, existingNote, setExistingNote, noteExists, setNoteExists, notesArray, setNotesArray}) => {
     const options = {
         weekday: "short",
         year: "numeric",
@@ -31,7 +33,6 @@ const ArticleCard = ({title, image, url, date, publisher, description}) => {
     publisher = "Abc";
     description = "djfdf";
     let article_url="www.yahoo.com"
-
     ///wrap conditional expression around axios calls to get all articles and notes OR make those call in separate comonponets housed 
     // within Profile
     /// in here will be the POST for articles, in notes component will be the axios calls GET, POST, PUT AND DELETE for notes
@@ -42,7 +43,7 @@ const ArticleCard = ({title, image, url, date, publisher, description}) => {
             <CardBody fontSize={'2xm'}>
                 <HStack w='100%' justify={'space-between'}>
                     <Link href={url} target="_blank">
-                        <Heading as='h2' fontSize={'2xl'}>{title}title</Heading>
+                        <Heading as='h2' fontSize={'2xl'}>{title}</Heading>
                     </Link>
                     <Icon as={MdOutlineBookmark} onClick={() => handleReadLater()} boxSize={7} color = {!readLater ? "none" : "koobAccentGold"}/>
                 </HStack>
@@ -72,7 +73,15 @@ const ArticleCard = ({title, image, url, date, publisher, description}) => {
                                     article_url={article_url}
                                     date={date}
                                     publisher={publisher}
-                                    description={description} /> }
+                                    description={description} 
+                                    notesArray={notesArray}
+                                    hide={hide}
+                                    existingNote={existingNote} 
+                                    setExistingNote={setExistingNote} 
+                                    noteExists={noteExists} 
+                                    setNoteExists={setNoteExists}
+                                    setNotesArray={setNotesArray}
+                                    /> }
                 </VStack>
             </CardBody>
         </Stack>

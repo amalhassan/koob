@@ -6,12 +6,33 @@ import ArticleCard from '../ArticleCard/ArticleCard';
 import PlaceholderImg from '../../assets/images/27163.jpg'
 import axios from 'axios';
 import { baseURL } from '../../constant';
-const Articles = ({type, setType, query, setQuery}) => {
+const Articles = ({type, setType, query, setQuery, existingNote, setExistingNote, noteExists, setNoteExists}) => {
     const navigate = useNavigate();
     const [articleList, setArticleList] = useState([]);
+    const [notesArray, setNotesArray] = useState([]);
     useEffect(() => {
         console.log("q from params", query, type);
     }, [ query, type])
+    useEffect(() => {
+      const cancelToken = axios.CancelToken;
+      const source = cancelToken.source();
+      (async function () {
+        try {
+        const res = await axios.get(`${baseURL}/user/645d0a9b892e3f58c6b04385/notes`, {cancelToken: source.token})
+        console.log(res.data);
+        setNotesArray(res.data);
+        } catch (error) {
+          if (axios.isCancel(error)) {
+            console.log('acticles comp aborted');
+          } else {
+            console.log(error)
+          }
+        }
+      } ())
+      return () => {
+        source.cancel();
+      }
+    }, [])
     useEffect(() => { 
         const cancelToken = axios.CancelToken;
         const source = cancelToken.source();
@@ -52,8 +73,8 @@ const Articles = ({type, setType, query, setQuery}) => {
                 />s
                  ))}
                 </> */}
-                <ArticleCard/>
-                <ArticleCard/>
+                <ArticleCard existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists} notesArray={notesArray} setNotesArray={setNotesArray}/>
+                <ArticleCard existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists} notesArray={notesArray} setNotesArray={setNotesArray}/>
         </Flex>
     </Box>
   )

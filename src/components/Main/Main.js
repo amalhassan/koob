@@ -4,7 +4,7 @@ import { Flex, List, ListItem, ListIcon, Divider, Text } from '@chakra-ui/react'
 import {MdOutlineExplore, MdOutlineAccountCircle} from 'react-icons/md';
 import ArticlesPage from '../../pages/ArticlesPage/ArticlesPage';
 import ProfilePage from '../../pages/ProfilePage/ProfilePage';
-const Main = ({type, setType, page, setPage}) => {
+const Main = ({type, setType, page, setPage, existingNote, setExistingNote, noteExists, setNoteExists}) => {
     const [current, setCurrent] = useState(true);
     const navigate = useNavigate();
     const handleClick = (e) => {
@@ -43,8 +43,8 @@ const Main = ({type, setType, page, setPage}) => {
                 </ListItem>
             </List>
         </Flex>
-        {page === "explore" && <ArticlesPage setType={setType} type={type} query={query} setQuery={setQuery}/>}
-        {page === "profile" && <ProfilePage/>}
+        {page === "explore" && <ArticlesPage setType={setType} type={type} query={query} setQuery={setQuery} existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists}/>}
+        {page === "profile" && <ProfilePage existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists}/>}
     </Flex>
   )
 }

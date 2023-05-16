@@ -1,8 +1,8 @@
 import React from 'react'
 import Profile from '../../components/Profile/Profile'
-const ProfilePage = () => {
+const ProfilePage = (existingNote, setExistingNote, noteExists, setNoteExists) => {
   return (
-    <Profile/>
+    <Profile existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists}/>
   )
 }
 
