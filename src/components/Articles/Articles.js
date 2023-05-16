@@ -5,6 +5,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import ArticleCard from '../ArticleCard/ArticleCard';
 import PlaceholderImg from '../../assets/images/27163.jpg'
 import axios from 'axios';
+import { baseURL } from '../../constant';
 const Articles = ({type, setType, query, setQuery}) => {
     const navigate = useNavigate();
     const [articleList, setArticleList] = useState([]);

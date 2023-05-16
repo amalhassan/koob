@@ -21,7 +21,7 @@ const Main = ({type, setType, page, setPage}) => {
     const favorites = ["technology", "design", "marketing", "photgrapghy"];
     const cate = favorites.join('&');
     useEffect(() => {
-        if (type === "personal" || location.pathname === "/" || location.pathname === "/explore") {
+        if (type === "personal" || location.pathname === "/" || location.pathname === "/explore" || type !== 'search') {
             setQuery(cate);
         } else if (type === "sidebar") {
             setQuery(param);
@@ -32,7 +32,7 @@ const Main = ({type, setType, page, setPage}) => {
     <Flex w={{md:'80%'}} direction={{base: 'column'}} px={{sm:'2rem'}} pt={{sm:'0.5rem'}}>
         <Flex w='100%' fontSize = {{base: '1.4rem', sm: '1.2rem'}} mt={{base: '1rem', sm:'2rem'}}>
             <List display={'flex'} flexDirection={{base: 'column-reverse', sm:'row'}} w='100%' borderBottomWidth={{base:0, sm:'2px'}} borderColor={'koobBlack'} pb={{sm:'0.5rem'}} mb={{sm:'0.5rem'}}>
-                <ListItem alignSelf={'center'} onClick={() => handleClick("explore")} cursor={'pointer'} _hover={{color: 'koobAccentGold' }}>
+                <ListItem alignSelf={'center'} onClick={() => handleClick("")} cursor={'pointer'} _hover={{color: 'koobAccentGold' }}>
                     <ListIcon as={MdOutlineExplore} boxSize={{base: 7, sm: 5}}/>
                     <Text display={'inline'} color = {page === "explore" ? "koobAccentGold" : "koobBlack"}>Explore</Text>
                 </ListItem>
