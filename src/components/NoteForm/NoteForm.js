@@ -1,46 +1,96 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Card, FormControl, FormErrorMessage, FormLabel, Textarea, Button, HStack, ButtonGroup, Image, Text, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 ModalCloseButton} from '@chakra-ui/react';
 import DeleteIcon from '../../assets/icons/delete_outline.svg';
-const NoteForm = ({formType, note, setNote, setFormType}) => {
+import axios from 'axios';
+import {baseURL} from "../../constant.js"
+const NoteForm = ({formType, note, setNote, setFormType, title, image, article_url, date, publisher, description}) => {
   const [toggleForm, setToggleForm] = useState(false);
   const [error, setError] = useState("");
+  const[buttonClicked, setButtonClicked] = useState(false);
+  const [savedNote, setSavedNote] = useState("");
+  // console.log(image);
+  // const id="6462eb098679abcf798975d8"
   const cancelledNote = (e) => {
     if (e.target.id === 'cancelled') {
       setNote("");
     }
   }
-  const submitted = () => {
+  const submitted = (text) => {
+    setError("");
+    setNote(text)
     setToggleForm(true);
-    setFormType('Edit');
-    setNote("");
+    setButtonClicked(true);
+    console.log("complete submitted", note)
   }
-  const getInput = (e) => {
-    setNote(e.currentTarget.value)
-  }
-  const validateInput = (note) => {
-    if(note === "" || note === undefined) {
+  const validateInput = (text) => {
+    if(text === "" || text === undefined) {
       setError("This field is required");
     } else {
-      setError("");
-      submitted();
+      submitted(text);
     }
   }
   const handleText = (e) => {
     e.preventDefault();
-    validateInput(note);
+    console.log("initial", e.target.note.value);
+    validateInput(e.target.note.value);
   }
   const { isOpen, onOpen, onClose } = useDisclosure();
+  useEffect(() => {
+    // api call to backend 
+    if (error === "" && note !== "") {
+        const info = {
+          note: note,
+          article_title: title,
+          article_url: article_url,
+          publisher: publisher,
+          img_url: image,
+          date: date,
+          summary: description
+        }
+        console.log("info note", info.note)
+        let url;
+        let method;
+        if (buttonClicked) {
+        if (formType === 'Add'&& !info.note !== "") {
+          url = `${baseURL}user/645d0a9b892e3f58c6b04385/notes`;
+          method = "POST";
+        } else if (formType === 'Edit'){
+          // url = `${baseURL}user/645d0a9b892e3f58c6b04385/notes/${id}`;
+          method = "PUT"
+      }
+     
+      axios.request({url, method, data: {...info}, headers: {'Content-Type': 'application/json' }}).then((res) => {
+        
+        
+        setButtonClicked(false);
+        console.log(formType);
+         if (formType === 'Add') {
+          setFormType('Edit');
+        } else {
+          setFormType('Add')
+        }
+        setNote("");
+        return console.log(res.data)
+        
+    })
+      .catch((error) => {
+        return console.log(error)
+      })
+    }
+  }
+   
+  }, [toggleForm, title, image, article_url, date, description, formType, note, publisher])
+
   return (
     <>
-    {toggleForm ? <Card>Hi</Card> :
+    {toggleForm ? <Card>{savedNote}</Card> :
     <Card display={'flex'} w={'100%'} my={'20px'} shadow={'none'}>
-        <form w={"100%"} display={'flex'} id="form" onSubmit={handleText}>
+        <form w={"100%"} display={'flex'} id="form" onSubmit={(e) => handleText(e)}>
             <FormControl isInvalid={error}>
               <FormLabel hidden={true} htmlFor={note}>Note</FormLabel>
-              <Textarea type="text" placeholder='Thoughts?' borderWidth={'1px'} borderColor={'koobBlack'} name="note" id= "note" value={note} onChange={getInput}/>
+              <Textarea type="text" placeholder='Thoughts?' borderWidth={'1px'} borderColor={'koobBlack'} name="note" id= "note"  />
               <FormErrorMessage color={'red'} pt={0} mt={1}>
-				          {/* <img src={ErrorIcon} alt='error icon' /> */}
 				          <Text fontSize={{ base: 'nonMobSm' }} pl={'0.2rem'}>{error}</Text>
 			        </FormErrorMessage>
             </FormControl>

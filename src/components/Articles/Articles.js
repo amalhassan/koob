@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import { Box, Flex} from '@chakra-ui/react';
 import SearchBar from '../SearchBar/SearchBar';
 import ArticleCard from '../ArticleCard/ArticleCard';
+import PlaceholderImg from '../../assets/images/27163.jpg'
 import axios from 'axios';
 const Articles = ({type, setType, query, setQuery}) => {
     const navigate = useNavigate();
@@ -41,9 +42,8 @@ const Articles = ({type, setType, query, setQuery}) => {
                 <ArticleCard
                 onClick={onToggle} 
                 key={i}
-                id={i}
                 title={article.title}
-                image={article.urlToImage}
+                image={{article.urlToImage ? article.urlToImage : PlaceholderImg}}
                 url={article.url}
                 date={article.publishedAt}
                 publisher={article.source.name}
@@ -51,6 +51,7 @@ const Articles = ({type, setType, query, setQuery}) => {
                 />s
                  ))}
                 </> */}
+                <ArticleCard/>
                 <ArticleCard/>
         </Flex>
     </Box>
