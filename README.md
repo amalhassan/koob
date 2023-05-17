@@ -20,7 +20,7 @@ Open http://localhost:3000 to view it in your browser.
 
 # Tech Stack
 
-Mongo
-Express
-React
-Node
+[Mongo](https://www.mongodb.com/)
+[Express](https://expressjs.com/)
+[React](https://react.dev/)
+[Node](https://nodejs.org/en)
