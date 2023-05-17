@@ -4,7 +4,7 @@ import { Flex, List, ListItem, ListIcon, Divider, Text } from '@chakra-ui/react'
 import {MdOutlineExplore, MdOutlineAccountCircle} from 'react-icons/md';
 import ArticlesPage from '../../pages/ArticlesPage/ArticlesPage';
 import ProfilePage from '../../pages/ProfilePage/ProfilePage';
-const Main = ({type, setType, page, setPage, existingNote, setExistingNote, noteExists, setNoteExists}) => {
+const Main = ({type, setType, page, setPage}) => {
     const [current, setCurrent] = useState(true);
     const navigate = useNavigate();
     const handleClick = (e) => {
@@ -21,8 +21,10 @@ const Main = ({type, setType, page, setPage, existingNote, setExistingNote, note
     const favorites = ["technology", "design", "marketing", "photgrapghy"];
     const cate = favorites.join('&');
     useEffect(() => {
-        if (type === "personal" || location.pathname === "/" || location.pathname === "/explore" || type !== 'search') {
+        console.log("use effect in Main", type)
+        if (type === "personal" || location.pathname === "/") {
             setQuery(cate);
+            console.log("inside useEffect Main", location.pathname, type)
         } else if (type === "sidebar") {
             setQuery(param);
         } 
@@ -43,8 +45,8 @@ const Main = ({type, setType, page, setPage, existingNote, setExistingNote, note
                 </ListItem>
             </List>
         </Flex>
-        {page === "explore" && <ArticlesPage setType={setType} type={type} query={query} setQuery={setQuery} existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists}/>}
-        {page === "profile" && <ProfilePage existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists}/>}
+        {page === "explore" && <ArticlesPage setType={setType} type={type} query={query} setQuery={setQuery} />}
+        {page === "profile" && <ProfilePage />}
     </Flex>
   )
 }

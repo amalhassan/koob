@@ -5,31 +5,33 @@ import DeleteIcon from '../../assets/icons/delete_outline.svg';
 import axios from 'axios';
 import {baseURL} from "../../constant.js"
 import { findNote } from '../../utils';
-const NoteForm = ({formType, note, setNote, setFormType, title, image, article_url, date, publisher, description, notesArray, hide, existingNote, setExistingNote, noteExists, setNoteExists, setNotesArray}) => {
+const NoteForm = ({noteRetrieved, formType, setFormType, title, image, article_url, date, publisher, description, notesArray, hide, setNotesArray}) => {
   const [toggleForm, setToggleForm] = useState(false);
   const [error, setError] = useState("");
   const[buttonClicked, setButtonClicked] = useState(false);
   const [savedNote, setSavedNote] = useState("");
   const [id, setId] = useState("");
+  const [existingNote, setExistingNote] = useState({});
+  const [noteExists, setNoteExists] = useState(false);
+  const [note, setNote] = useState("");
    useEffect(() => {
       if (!hide) {
+        console.log("noteform", notesArray)
         const res = findNote(notesArray, title);
-        if(res.length === 0) {
+        if(Object.keys(res).length !== 0) {
           console.log("this is existing note", existingNote);
           setExistingNote(res);
           setNoteExists(true);
         }
-        // console.log("object does not exist")
-        // console.log("res from findNote", res);
+        console.log("object does not exist", noteExists)
       }
-    }, [notesArray, title, hide, existingNote, noteExists])
+    }, [notesArray, title, hide, existingNote, setNoteExists, noteExists])
     useEffect(() => {
       if(noteExists) {
         setId(existingNote._id);
         setFormType('Edit');
       }
-    }, [existingNote, noteExists])
-  // console.log(image);
+    }, [existingNote, noteExists, setFormType])
   const cancelledNote = (e) => {
     if (e.target.id === 'cancelled') {
       setNote("");
@@ -56,7 +58,6 @@ const NoteForm = ({formType, note, setNote, setFormType, title, image, article_u
   }
   const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => {
-    // api call to backend 
     if (error === "" && note !== "") {
         const info = {
           note: note,
@@ -71,14 +72,13 @@ const NoteForm = ({formType, note, setNote, setFormType, title, image, article_u
         let url;
         let method;
         if (buttonClicked) {
-        if (formType === 'Add'&& !info.note !== "") {
+        if (formType === 'Add' && !info.note !== "") {
           url = `${baseURL}user/645d0a9b892e3f58c6b04385/notes`;
           method = "POST";
         } else if (formType === 'Edit'){
           url = `${baseURL}user/645d0a9b892e3f58c6b04385/notes/${id}`;
           method = "PUT"
       }
-     
       axios.request({url, method, data: {...info}, headers: {'Content-Type': 'application/json' }}).then((res) => {
         setButtonClicked(false);
         console.log(formType);
@@ -97,8 +97,7 @@ const NoteForm = ({formType, note, setNote, setFormType, title, image, article_u
     }).then((res) => {
       (async function () {
         try {
-        const res = await axios.get(`${baseURL}/user/645d0a9b892e3f58c6b04385/notes`)
-        // console.log(res.data);
+        const res = await axios.get(`${baseURL}user/645d0a9b892e3f58c6b04385/notes`)
         setNotesArray(res.data);
         } catch (error) {
           console.log(error)
@@ -109,28 +108,25 @@ const NoteForm = ({formType, note, setNote, setFormType, title, image, article_u
         return console.log(error)
       })
     }
-  }
-   
-  }, [toggleForm, title, image, article_url, date, description, formType, note, publisher])
+  } 
+  }, [title, image, article_url, date, description, formType, note, publisher, buttonClicked, error, id, notesArray, setFormType, setNotesArray])
   const handleDelete = () => {
-   
-      axios.delete(`${baseURL}/user/645d0a9b892e3f58c6b04385/notes/${id}`).then((res) => {
+      axios.delete(`${baseURL}user/645d0a9b892e3f58c6b04385/notes/${id}`).then((res) => {
       console.log("deleted", res.data);
       setFormType('Add');
       setNoteExists(false);
-      // setExistingNote({});
       }).catch ((error) => {
         console.log(error)
       })
   } 
   return (
     <>
-    {toggleForm  ? <Card>{savedNote}</Card> :
+    {toggleForm  ? <Card variant="unstyled" borderWidth={'1px'} borderColor={'koobBlack'} w={'100%'} p={2}>Note: <Text>{savedNote} </Text></Card> :
     <Card display={'flex'} w={'100%'} my={'20px'} shadow={'none'}>
         <form w={"100%"} display={'flex'} id="form" onSubmit={(e) => handleText(e)}>
             <FormControl isInvalid={error}>
               <FormLabel hidden={true} htmlFor={note}>Note</FormLabel>
-              <Textarea type="text" placeholder='Thoughts?' borderWidth={'1px'} borderColor={'koobBlack'} name="note" id= "note"  />
+              <Textarea type="text" placeholder='Thoughts?' borderWidth={'1px'} borderColor={'koobBlack'} name="note" id= "note" />
               <FormErrorMessage color={'red'} pt={0} mt={1}>
 				          <Text fontSize={{ base: 'nonMobSm' }} pl={'0.2rem'}>{error}</Text>
 			        </FormErrorMessage>

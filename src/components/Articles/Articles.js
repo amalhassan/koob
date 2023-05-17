@@ -1,13 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
 import { Box, Flex} from '@chakra-ui/react';
 import SearchBar from '../SearchBar/SearchBar';
 import ArticleCard from '../ArticleCard/ArticleCard';
-import PlaceholderImg from '../../assets/images/27163.jpg'
 import axios from 'axios';
 import { baseURL } from '../../constant';
-const Articles = ({type, setType, query, setQuery, existingNote, setExistingNote, noteExists, setNoteExists}) => {
-    const navigate = useNavigate();
+const Articles = ({type, setType, query, setQuery}) => {
     const [articleList, setArticleList] = useState([]);
     const [notesArray, setNotesArray] = useState([]);
     useEffect(() => {
@@ -18,7 +15,7 @@ const Articles = ({type, setType, query, setQuery, existingNote, setExistingNote
       const source = cancelToken.source();
       (async function () {
         try {
-        const res = await axios.get(`${baseURL}/user/645d0a9b892e3f58c6b04385/notes`, {cancelToken: source.token})
+        const res = await axios.get(`${baseURL}user/645d0a9b892e3f58c6b04385/notes`, {cancelToken: source.token})
         console.log(res.data);
         setNotesArray(res.data);
         } catch (error) {
@@ -38,17 +35,17 @@ const Articles = ({type, setType, query, setQuery, existingNote, setExistingNote
         const source = cancelToken.source();
         (async function() {
             try {
-                // const res = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${process.env.REACT_APP_API_URL}&pageSize=60`, {cancelToken: source.token})
-                // console.log(res.data);
-                // setArticleList(res.data.articles);
-                // 
+                const res = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${process.env.REACT_APP_API_URL}&pageSize=60`, {cancelToken: source.token})
+                console.log(res.data);
+                setArticleList(res.data.articles);
+                
                 console.log("axios", query)
             } catch (error) {
-                // if (axios.isCancel(error)) {
-                //     console.log('aborted2');
-                //   } else {
+                if (axios.isCancel(error)) {
+                    console.log('aborted2');
+                  } else {
                     console.log(error)
-                //   }
+                }
             }
     } ())
     return () => {
@@ -59,22 +56,19 @@ const Articles = ({type, setType, query, setQuery, existingNote, setExistingNote
     <Box>
         <SearchBar setQuery={setQuery} setType={setType}/>
         <Flex direction={'column'} columnGap={'20px'} my={'20px'} justifyContent={'start'} alignItems={'center'}>
-            {/* {articleList.map((article, i) => (
-                <>
+            {articleList.map((article, i) => (
                 <ArticleCard
-                onClick={onToggle} 
                 key={i}
                 title={article.title}
-                image={{article.urlToImage ? article.urlToImage : PlaceholderImg}}
+                image={article.urlToImage}
                 url={article.url}
                 date={article.publishedAt}
                 publisher={article.source.name}
                 description={article.description}
-                />s
-                 ))}
-                </> */}
-                <ArticleCard existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists} notesArray={notesArray} setNotesArray={setNotesArray}/>
-                <ArticleCard existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists} notesArray={notesArray} setNotesArray={setNotesArray}/>
+                notesArray={notesArray}
+                setNotesArray={setNotesArray}
+                />
+                 ))}      
         </Flex>
     </Box>
   )

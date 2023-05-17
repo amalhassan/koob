@@ -1,8 +1,8 @@
 import React from 'react'
 import Articles from '../../components/Articles/Articles'
-const ArticlesPage = ({type, setType, query, setQuery, existingNote, setExistingNote, noteExists, setNoteExists}) => {
+const ArticlesPage = ({type, setType, query, setQuery}) => {
   return (
-    <Articles type={type} setType={setType} query={query} setQuery={setQuery} existingNote={existingNote} setExistingNote={setExistingNote} noteExists={noteExists} setNoteExists={setNoteExists}/>
+    <Articles type={type} setType={setType} query={query} setQuery={setQuery} />
   )
 }
 
