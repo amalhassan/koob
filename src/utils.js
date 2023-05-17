@@ -1,9 +1,11 @@
 export const findNote = (notes, title) => {
-    console.log("utilities", notes);
         const result = notes.find((note) => {
+            let foundNote;
             if (note.article_title === title) {
-                 return note;
-            }})
+                 foundNote = note;
+            }
+            return foundNote
+        })
         return result ? result : {}
 }
 
