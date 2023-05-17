@@ -30,7 +30,7 @@ const ArticleCard = ({title, image, url, date, publisher, description, notesArra
         if (readLater) {
             (async function () {
                 try {
-                const res = await axios.post(`${baseURL}user/645d0a9b892e3f58c6b04385/articles`, {
+                await axios.post(`${baseURL}user/645d0a9b892e3f58c6b04385/articles`, {
                     article_title: title,
                     article_url: url,
                     publisher: publisher,
@@ -38,7 +38,6 @@ const ArticleCard = ({title, image, url, date, publisher, description, notesArra
                     date: date,
                     summary: description
                   })
-                console.log("posted bookmark", res.data);
                 } catch (error) {
                   console.log(error)
                 }
@@ -50,8 +49,7 @@ const ArticleCard = ({title, image, url, date, publisher, description, notesArra
                     const articlesBookmarked = res.data;
                     const findArticle = articlesBookmarked.find(((r) => title === r.article_title));
                     const bookmarkToRemoveId = findArticle._id;
-                    const res2 = await axios.delete(`${baseURL}user/645d0a9b892e3f58c6b04385/articles/${bookmarkToRemoveId}`)
-                    console.log("deleted bookmark", res2.data);
+                    await axios.delete(`${baseURL}user/645d0a9b892e3f58c6b04385/articles/${bookmarkToRemoveId}`)
                     } catch (error) {
                       console.log(error)
                     }

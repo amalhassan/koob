@@ -4,7 +4,6 @@ const SearchBar = ({setQuery, setType}) => {
   const [search, setSearch] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("search", search);
     setType("search")
     setQuery(search);
     e.target.reset();

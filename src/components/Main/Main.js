@@ -21,14 +21,11 @@ const Main = ({type, setType, page, setPage}) => {
     const favorites = ["technology", "design", "marketing", "photgrapghy"];
     const cate = favorites.join('&');
     useEffect(() => {
-        console.log("use effect in Main", type)
         if (type === "personal" || location.pathname === "/") {
             setQuery(cate);
-            console.log("inside useEffect Main", location.pathname, type)
         } else if (type === "sidebar") {
             setQuery(param);
         } 
-        console.log(page)
     }, [setQuery, cate, param, type, location.pathname, page])
   return (
     <Flex w={{md:'80%'}} direction={{base: 'column'}} px={{sm:'2rem'}} pt={{sm:'0.5rem'}}>

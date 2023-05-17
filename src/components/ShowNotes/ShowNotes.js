@@ -8,7 +8,6 @@ const ShowNotes = () => {
         (async function () {
             try {
                 const res = await axios.get(`${baseURL}user/645d0a9b892e3f58c6b04385/notes`)
-                console.log("from notes component", res.data)
                 setNotesToShow(res.data)
             } catch (error) {
               console.log(error)

@@ -16,14 +16,11 @@ const NoteForm = ({noteRetrieved, formType, setFormType, title, image, article_u
   const [note, setNote] = useState("");
    useEffect(() => {
       if (!hide) {
-        console.log("noteform", notesArray)
         const res = findNote(notesArray, title);
         if(Object.keys(res).length !== 0) {
-          console.log("this is existing note", existingNote);
           setExistingNote(res);
           setNoteExists(true);
         }
-        console.log("object does not exist", noteExists)
       }
     }, [notesArray, title, hide, existingNote, setNoteExists, noteExists])
     useEffect(() => {
@@ -42,7 +39,6 @@ const NoteForm = ({noteRetrieved, formType, setFormType, title, image, article_u
     setNote(text)
     setToggleForm(true);
     setButtonClicked(true);
-    console.log("complete submitted", note)
   }
   const validateInput = (text) => {
     if(text === "" || text === undefined) {
@@ -53,7 +49,6 @@ const NoteForm = ({noteRetrieved, formType, setFormType, title, image, article_u
   }
   const handleText = (e) => {
     e.preventDefault();
-    console.log("initial", e.target.note.value);
     validateInput(e.target.note.value);
   }
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -68,7 +63,6 @@ const NoteForm = ({noteRetrieved, formType, setFormType, title, image, article_u
           date: date,
           summary: description
         }
-        console.log("info note", info.note)
         let url;
         let method;
         if (buttonClicked) {
@@ -81,7 +75,6 @@ const NoteForm = ({noteRetrieved, formType, setFormType, title, image, article_u
       }
       axios.request({url, method, data: {...info}, headers: {'Content-Type': 'application/json' }}).then((res) => {
         setButtonClicked(false);
-        console.log(formType);
          if (formType === 'Add') {
           setFormType('Edit');
         } else {
@@ -92,8 +85,6 @@ const NoteForm = ({noteRetrieved, formType, setFormType, title, image, article_u
         setExistingNote(n);
         setNoteExists(true);
         setSavedNote(res.data.note)
-        return console.log(res.data)
-        
     }).then((res) => {
       (async function () {
         try {
@@ -112,7 +103,6 @@ const NoteForm = ({noteRetrieved, formType, setFormType, title, image, article_u
   }, [title, image, article_url, date, description, formType, note, publisher, buttonClicked, error, id, notesArray, setFormType, setNotesArray])
   const handleDelete = () => {
       axios.delete(`${baseURL}user/645d0a9b892e3f58c6b04385/notes/${id}`).then((res) => {
-      console.log("deleted", res.data);
       setFormType('Add');
       setNoteExists(false);
       }).catch ((error) => {

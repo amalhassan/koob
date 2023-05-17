@@ -8,7 +8,6 @@ const Articles = ({type, setType, query, setQuery}) => {
     const [articleList, setArticleList] = useState([]);
     const [notesArray, setNotesArray] = useState([]);
     useEffect(() => {
-        console.log("q from params", query, type);
     }, [ query, type])
     useEffect(() => {
       const cancelToken = axios.CancelToken;
@@ -16,11 +15,10 @@ const Articles = ({type, setType, query, setQuery}) => {
       (async function () {
         try {
         const res = await axios.get(`${baseURL}user/645d0a9b892e3f58c6b04385/notes`, {cancelToken: source.token})
-        console.log(res.data);
         setNotesArray(res.data);
         } catch (error) {
           if (axios.isCancel(error)) {
-            console.log('acticles comp aborted');
+            console.log('articles comp aborted');
           } else {
             console.log(error)
           }
@@ -36,10 +34,7 @@ const Articles = ({type, setType, query, setQuery}) => {
         (async function() {
             try {
                 const res = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${process.env.REACT_APP_API_URL}&pageSize=60`, {cancelToken: source.token})
-                console.log(res.data);
                 setArticleList(res.data.articles);
-                
-                console.log("axios", query)
             } catch (error) {
                 if (axios.isCancel(error)) {
                     console.log('aborted2');

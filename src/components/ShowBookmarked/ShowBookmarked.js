@@ -9,16 +9,13 @@ const ShowBookmarked = () => {
         (async function () {
             try {
                 const res = await axios.get(`${baseURL}user/645d0a9b892e3f58c6b04385/articles`)
-                console.log("articles from showbookmarked comp", res.data)
                 setBookmarkedArticleList(res.data)
                 const res2 = await axios.get(`${baseURL}user/645d0a9b892e3f58c6b04385/notes`)
-                console.log("notes array from showbokmarked component", res2.data)
                 setNotesWithBookmark(res2.data)
             } catch (error) {
                 console.log(error)
             }
           } ())
-
     }, [])
   return (
    <div w='100%'>
